@@ -1,0 +1,11 @@
+target/
+.idea/
+*.iml
+out/
+*.log
+.DS_Store
+# VS Code: versiona só as configurações compartilhadas do projeto
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+regras.md

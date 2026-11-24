@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Avaliações</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Sistema de Avaliações</h1>
+
+<section>
+    <h2>Entrar</h2>
+    <input id="email" type="email" placeholder="seu e-mail (ex.: ana@uel.br)">
+    <button onclick="entrar()">Entrar</button>
+    <p id="mensagem"></p>
+</section>
+
+<section>
+    <h2>Usuários cadastrados (teste de conexão com o banco)</h2>
+    <table>
+        <thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th></tr></thead>
+        <tbody id="usuarios"></tbody>
+    </table>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
