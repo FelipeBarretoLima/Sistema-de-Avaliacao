@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Questões — Sistema de Avaliações</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+    <a href="index.html">Início</a>
+    <a href="questoes.html"><strong>Questões</strong></a>
+</nav>
+
+<h1>Questões</h1>
+
+<section>
+    <h2>Nova questão</h2>
+    <form id="form-questao">
+        <label>Tipo
+            <select id="tipo">
+                <option value="MULTIPLA">Múltipla escolha</option>
+                <option value="TEXTO">Texto livre</option>
+            </select>
+        </label>
+
+        <label>Enunciado
+            <textarea id="enunciado" rows="3" placeholder="Ex.: Qual comando cria uma tabela?"></textarea>
+        </label>
+
+        <fieldset id="bloco-alternativas">
+            <legend>Alternativas (preencha pelo menos 2 e marque a correta)</legend>
+            <div id="alternativas"></div>
+        </fieldset>
+
+        <button type="submit">Cadastrar questão</button>
+        <p id="mensagem"></p>
+    </form>
+</section>
+
+<section>
+    <h2>Questões cadastradas</h2>
+    <table>
+        <thead><tr><th>Nº</th><th>Enunciado</th><th>Tipo</th><th>Alternativas</th></tr></thead>
+        <tbody id="lista-questoes"></tbody>
+    </table>
+</section>
+
+<script src="questoes.js"></script>
+</body>
+</html>
