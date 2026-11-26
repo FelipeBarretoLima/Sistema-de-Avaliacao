@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatórios — Sistema de Avaliações</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        .relatorio { border-top: 2px solid #0f4f2f; padding-top: .5rem; margin-bottom: 2.5rem; }
+        .filtros { display: flex; gap: 1rem; align-items: end; margin-bottom: 1rem; }
+        .filtros label { font-weight: 600; }
+        .filtros input, .filtros select { display: block; margin-top: .3rem; padding: .3rem; }
+        .grafico { position: relative; height: 320px; margin-bottom: 1rem; }
+        .descricao { color: #555; margin-top: 0; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html">Início</a>
+    <a href="questoes.html">Questões</a>
+    <a href="avaliacoes.html">Avaliações</a>
+    <a href="responder.html">Responder</a>
+    <a href="correcao.html">Correção</a>
+    <a href="relatorios.html"><strong>Relatórios</strong></a>
+</nav>
+
+<h1>Relatórios</h1>
+
+<!-- R3 -->
+<section class="relatorio">
+    <h2>R3 — Questões com mais erros (ranking)</h2>
+    <p class="descricao">As 10 questões de múltipla escolha com menor percentual de acerto. Empates ficam na mesma posição (RANK).</p>
+    <div class="filtros">
+        <label>Enunciado contém <input type="text" id="r3-busca" placeholder="ex.: tabela"></label>
+        <button id="r3-atualizar">Atualizar</button>
+    </div>
+    <div class="grafico"><canvas id="r3-grafico"></canvas></div>
+    <table>
+        <thead><tr><th>Posição</th><th>Nº</th><th>Enunciado</th><th>Respostas</th><th>Erros</th><th>% de acerto</th></tr></thead>
+        <tbody id="r3-tabela"></tbody>
+    </table>
+    <h3>Questões nunca usadas em avaliações</h3>
+    <table>
+        <thead><tr><th>Nº</th><th>Enunciado</th><th>Tipo</th></tr></thead>
+        <tbody id="r3-nunca-usadas"></tbody>
+    </table>
+</section>
+
+<script src="relatorios.js"></script>
+</body>
+</html>
