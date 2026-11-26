@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Correção — Sistema de Avaliações</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .nota { width: 5rem; }
+        .texto-resposta { font-style: italic; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html">Início</a>
+    <a href="questoes.html">Questões</a>
+    <a href="avaliacoes.html">Avaliações</a>
+    <a href="responder.html">Responder</a>
+    <a href="correcao.html"><strong>Correção</strong></a>
+    <a href="relatorios.html">Relatórios</a>
+</nav>
+
+<h1>Correção (professor)</h1>
+
+<section>
+    <h2>Questões de texto aguardando nota</h2>
+    <table>
+        <thead><tr><th>Avaliação</th><th>Aluno</th><th>Questão</th><th>Resposta</th><th>Nota</th><th></th></tr></thead>
+        <tbody id="lista-correcoes"></tbody>
+    </table>
+    <p id="mensagem"></p>
+</section>
+
+<section>
+    <h2>Nota total por aluno</h2>
+    <select id="avaliacao"></select>
+    <table>
+        <thead><tr><th>Aluno</th><th>Nota total</th><th>Questões sem correção</th></tr></thead>
+        <tbody id="lista-notas"></tbody>
+    </table>
+</section>
+
+<script src="correcao.js"></script>
+</body>
+</html>
