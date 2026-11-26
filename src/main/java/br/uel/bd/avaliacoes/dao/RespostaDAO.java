@@ -1,15 +1,20 @@
 package br.uel.bd.avaliacoes.dao;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import br.uel.bd.avaliacoes.model.Alternativa;
 import br.uel.bd.avaliacoes.model.AvaliacaoDoAluno;
+import br.uel.bd.avaliacoes.model.CorrecaoPendente;
 import br.uel.bd.avaliacoes.model.ItemAvaliacao;
+import br.uel.bd.avaliacoes.model.NotaAluno;
 import br.uel.bd.avaliacoes.model.Resposta;
 
 /** Acesso à tabela RESPOSTA e às consultas que a tela de responder precisa. */
@@ -91,5 +96,78 @@ public class RespostaDAO {
                 """,
                 resposta.avaliacaoId(), resposta.questaoId(), resposta.usuarioId(),
                 resposta.letra(), resposta.textoResposta(), resposta.nota());
+    }
+
+    private static final RowMapper<NotaAluno> NOTA_MAPPER = (rs, i) -> new NotaAluno(
+            rs.getInt("USUARIO_ID"),
+            rs.getString("NOME"),
+            rs.getBigDecimal("NOTA_TOTAL"),
+            rs.getInt("SEM_CORRECAO"));
+
+    /** Nota total de cada aluno na avaliação: SUM das notas (a nota total não é guardada em tabela). */
+    public List<NotaAluno> listarNotasDaAvaliacao(int avaliacaoId) {
+        return jdbc.query("""
+                SELECT U.ID AS USUARIO_ID, U.NOME,
+                       COALESCE(SUM(R.NOTA), 0) AS NOTA_TOTAL,
+                       COUNT(R.ID) - COUNT(R.NOTA) AS SEM_CORRECAO
+                FROM RESPOSTA R
+                JOIN USUARIO U ON U.ID = R.USUARIO_ID
+                WHERE R.AVALIACAO_ID = ?
+                GROUP BY U.ID, U.NOME
+                ORDER BY NOTA_TOTAL DESC, U.NOME
+                """,
+                NOTA_MAPPER, avaliacaoId);
+    }
+
+    public Optional<NotaAluno> notaDoAluno(int avaliacaoId, int usuarioId) {
+        return jdbc.query("""
+                SELECT U.ID AS USUARIO_ID, U.NOME,
+                       COALESCE(SUM(R.NOTA), 0) AS NOTA_TOTAL,
+                       COUNT(R.ID) - COUNT(R.NOTA) AS SEM_CORRECAO
+                FROM RESPOSTA R
+                JOIN USUARIO U ON U.ID = R.USUARIO_ID
+                WHERE R.AVALIACAO_ID = ? AND R.USUARIO_ID = ?
+                GROUP BY U.ID, U.NOME
+                """,
+                NOTA_MAPPER, avaliacaoId, usuarioId)
+                .stream().findFirst();
+    }
+
+    /** Respostas de texto ainda sem nota, para o professor corrigir. */
+    public List<CorrecaoPendente> listarCorrecoesPendentes() {
+        return jdbc.query("""
+                SELECT R.ID, A.TITULO, Q.ENUNCIADO, AQ.VALOR, U.NOME, R.TEXTO_RESPOSTA
+                FROM RESPOSTA R
+                JOIN AVALIACAO A ON A.ID = R.AVALIACAO_ID
+                JOIN QUESTAO Q ON Q.ID = R.QUESTAO_ID
+                JOIN AVALIACAO_QUESTAO AQ ON AQ.AVALIACAO_ID = R.AVALIACAO_ID AND AQ.QUESTAO_ID = R.QUESTAO_ID
+                JOIN USUARIO U ON U.ID = R.USUARIO_ID
+                WHERE Q.TIPO = 'TEXTO' AND R.NOTA IS NULL
+                ORDER BY A.DATA, U.NOME
+                """,
+                (rs, i) -> new CorrecaoPendente(
+                        rs.getInt("ID"),
+                        rs.getString("TITULO"),
+                        rs.getString("ENUNCIADO"),
+                        rs.getBigDecimal("VALOR"),
+                        rs.getString("NOME"),
+                        rs.getString("TEXTO_RESPOSTA")));
+    }
+
+    /** Valor da questão (na avaliação) a que a resposta de texto se refere. */
+    public Optional<BigDecimal> valorDaRespostaDeTexto(int respostaId) {
+        return jdbc.query("""
+                SELECT AQ.VALOR
+                FROM RESPOSTA R
+                JOIN AVALIACAO_QUESTAO AQ ON AQ.AVALIACAO_ID = R.AVALIACAO_ID AND AQ.QUESTAO_ID = R.QUESTAO_ID
+                JOIN QUESTAO Q ON Q.ID = R.QUESTAO_ID
+                WHERE R.ID = ? AND Q.TIPO = 'TEXTO'
+                """,
+                (rs, i) -> rs.getBigDecimal("VALOR"), respostaId)
+                .stream().findFirst();
+    }
+
+    public void atualizarNota(int respostaId, BigDecimal nota) {
+        jdbc.update("UPDATE RESPOSTA SET NOTA = ? WHERE ID = ?", nota, respostaId);
     }
 }
