@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Avaliações — Sistema de Avaliações</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .linha-campos { display: flex; gap: 1rem; }
+        .linha-campos label { flex: 1; }
+        form input[type="date"], form input[type="time"], form input[type="text"].grande {
+            display: block; width: 100%; margin-top: .3rem; box-sizing: border-box;
+        }
+        .valor { width: 5rem; }
+        .lista-alunos { display: grid; grid-template-columns: repeat(3, 1fr); gap: .3rem; }
+        .lista-alunos label { font-weight: normal; margin: 0; }
+        .total { font-weight: 600; margin-top: .5rem; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html">Início</a>
+    <a href="questoes.html">Questões</a>
+    <a href="avaliacoes.html"><strong>Avaliações</strong></a>
+</nav>
+
+<h1>Avaliações</h1>
+
+<section>
+    <h2>Nova avaliação</h2>
+    <form id="form-avaliacao">
+        <label>Título
+            <input type="text" id="titulo" class="grande" placeholder="Ex.: Prova 1 de BD">
+        </label>
+        <label>Descrição
+            <textarea id="descricao" rows="2" placeholder="Opcional"></textarea>
+        </label>
+        <div class="linha-campos">
+            <label>Data <input type="date" id="data"></label>
+            <label>Início <input type="time" id="horaInicio"></label>
+            <label>Fim <input type="time" id="horaFim"></label>
+        </div>
+
+        <fieldset>
+            <legend>Questões (marque as que entram na avaliação e informe o valor de cada uma)</legend>
+            <table>
+                <thead><tr><th></th><th>Nº</th><th>Enunciado</th><th>Tipo</th><th>Valor</th></tr></thead>
+                <tbody id="lista-questoes"></tbody>
+            </table>
+            <p class="total">Total da avaliação: <span id="total">0</span> pontos</p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Alunos que devem fazer a avaliação</legend>
+            <button type="button" id="marcar-todos">Marcar todos</button>
+            <div id="lista-alunos" class="lista-alunos"></div>
+        </fieldset>
+
+        <button type="submit">Cadastrar avaliação</button>
+        <p id="mensagem"></p>
+    </form>
+</section>
+
+<section>
+    <h2>Avaliações cadastradas</h2>
+    <table>
+        <thead><tr><th>Nº</th><th>Título</th><th>Data</th><th>Horário</th><th>Questões</th><th>Pontos</th><th>Alunos</th></tr></thead>
+        <tbody id="lista-avaliacoes"></tbody>
+    </table>
+</section>
+
+<script src="avaliacoes.js"></script>
+</body>
+</html>
