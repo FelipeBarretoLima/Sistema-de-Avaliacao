@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Responder — Sistema de Avaliações</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .questao { border: 1px solid #ccc; padding: .8rem 1rem; margin-bottom: .8rem; }
+        .questao h3 { margin: 0 0 .5rem; font-size: 1rem; }
+        .questao label { display: block; font-weight: normal; margin: .3rem 0; }
+        .questao textarea { width: 100%; box-sizing: border-box; font-family: inherit; font-size: 1rem; }
+        .valor-questao { color: #555; font-weight: normal; }
+        .oculto { display: none; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html">Início</a>
+    <a href="questoes.html">Questões</a>
+    <a href="avaliacoes.html">Avaliações</a>
+    <a href="responder.html"><strong>Responder</strong></a>
+    <a href="correcao.html">Correção</a>
+    <a href="relatorios.html">Relatórios</a>
+</nav>
+
+<h1>Responder avaliação</h1>
+
+<section id="bloco-login">
+    <h2>Entrar como aluno</h2>
+    <input id="email" type="email" placeholder="seu e-mail">
+    <button id="entrar">Entrar</button>
+    <p id="mensagem-login" class="erro"></p>
+</section>
+
+<section id="bloco-avaliacoes" class="oculto">
+    <h2>Avaliações de <span id="nome-aluno"></span> <button id="trocar">Trocar aluno</button></h2>
+    <table>
+        <thead><tr><th>Avaliação</th><th>Data</th><th>Horário</th><th>Situação</th></tr></thead>
+        <tbody id="lista-avaliacoes"></tbody>
+    </table>
+</section>
+
+<section id="bloco-prova" class="oculto">
+    <h2 id="titulo-prova"></h2>
+    <form id="form-prova">
+        <div id="questoes"></div>
+        <button type="submit">Enviar respostas</button>
+    </form>
+</section>
+
+<p id="mensagem"></p>
+
+<script src="responder.js"></script>
+</body>
+</html>
