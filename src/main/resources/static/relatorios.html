@@ -26,6 +26,41 @@
 
 <h1>Relatórios</h1>
 
+<!-- R1 -->
+<section class="relatorio">
+    <h2>R1 — Média por avaliação e quem ainda não respondeu</h2>
+    <p class="descricao">Média da nota total dos alunos em cada avaliação do período e quantos designados ainda não responderam.</p>
+    <div class="filtros">
+        <label>De <input type="date" id="r1-inicio" value="2026-01-01"></label>
+        <label>Até <input type="date" id="r1-fim" value="2026-12-31"></label>
+        <button id="r1-atualizar">Atualizar</button>
+    </div>
+    <div class="grafico"><canvas id="r1-grafico"></canvas></div>
+    <table>
+        <thead><tr><th>Avaliação</th><th>Data</th><th>Designados</th><th>Responderam</th><th>Pendentes</th><th>Média</th></tr></thead>
+        <tbody id="r1-tabela"></tbody>
+    </table>
+    <h3>Alunos que ainda não responderam</h3>
+    <table>
+        <thead><tr><th>Avaliação</th><th>Aluno</th></tr></thead>
+        <tbody id="r1-pendentes"></tbody>
+    </table>
+</section>
+
+<!-- R2 -->
+<section class="relatorio">
+    <h2>R2 — Evolução de um aluno comparada com a média dos demais</h2>
+    <p class="descricao">Nota total do aluno em cada avaliação, ao longo do tempo, ao lado da média dos outros alunos.</p>
+    <div class="filtros">
+        <label>Aluno <select id="r2-aluno"></select></label>
+    </div>
+    <div class="grafico"><canvas id="r2-grafico"></canvas></div>
+    <table>
+        <thead><tr><th>Avaliação</th><th>Data</th><th>Nota do aluno</th><th>Média dos demais</th><th>Diferença</th></tr></thead>
+        <tbody id="r2-tabela"></tbody>
+    </table>
+</section>
+
 <!-- R3 -->
 <section class="relatorio">
     <h2>R3 — Questões com mais erros (ranking)</h2>
