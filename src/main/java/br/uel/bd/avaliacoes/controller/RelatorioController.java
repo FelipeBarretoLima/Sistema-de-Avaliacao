@@ -1,15 +1,15 @@
 package br.uel.bd.avaliacoes.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import br.uel.bd.avaliacoes.dao.RelatorioDAO;
+import br.uel.bd.avaliacoes.model.AlunoPendente;
+import br.uel.bd.avaliacoes.model.EvolucaoAluno;
+import br.uel.bd.avaliacoes.model.MediaAvaliacao;
 import br.uel.bd.avaliacoes.model.QuestaoErrada;
 import br.uel.bd.avaliacoes.model.QuestaoNuncaUsada;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /** Rotas dos relatórios: a tela chama o controller, que usa o DAO (todo o SQL fica no DAO). */
 @RestController
@@ -20,6 +20,23 @@ public class RelatorioController {
 
     public RelatorioController(RelatorioDAO relatorioDAO) {
         this.relatorioDAO = relatorioDAO;
+    }
+
+    @GetMapping("/media-por-avaliacao")
+    public List<MediaAvaliacao> mediaPorAvaliacao(@RequestParam(defaultValue = "2000-01-01") LocalDate inicio,
+                                                  @RequestParam(defaultValue = "2100-12-31") LocalDate fim) {
+        return relatorioDAO.mediaPorAvaliacao(inicio, fim);
+    }
+
+    @GetMapping("/alunos-pendentes")
+    public List<AlunoPendente> alunosPendentes(@RequestParam(defaultValue = "2000-01-01") LocalDate inicio,
+                                               @RequestParam(defaultValue = "2100-12-31") LocalDate fim) {
+        return relatorioDAO.alunosPendentes(inicio, fim);
+    }
+
+    @GetMapping("/evolucao-do-aluno")
+    public List<EvolucaoAluno> evolucaoDoAluno(@RequestParam int usuarioId) {
+        return relatorioDAO.evolucaoDoAluno(usuarioId);
     }
 
     @GetMapping("/questoes-mais-erradas")
